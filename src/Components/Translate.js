@@ -31,7 +31,7 @@ const Translate = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/?text=${fromText.trim()}&source=${fromLang}&target=${toLang}`
+        `https://texttranslationbackend-production.up.railway.app/?text=${fromText.trim()}&source=${fromLang}&target=${toLang}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -64,6 +64,24 @@ const Translate = () => {
 
   const toggleIcon = (iconState, setIconState, type, id) => {
     setIconState(!iconState);
+    if(type === "volume"){
+      setIsFromCopyActive(false)
+      setIsToCopyActive(false)
+      if(id === "from"){
+        setIsToVolumeActive(false)
+      }else{
+        setIsFromVolumeActive(false)
+      }
+    }
+    if(type === "copy"){
+      setIsFromVolumeActive(false)
+      setIsToVolumeActive(false)
+      if(id === "from"){
+        setIsToCopyActive(false)
+      }else{
+        setIsFromCopyActive(false)
+      }
+    }
     if (!iconState) {
       if (type === "copy") {
         navigator.clipboard.writeText(id === "from" ? fromText : toText);
